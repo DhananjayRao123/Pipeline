@@ -4,6 +4,7 @@ input [4:0] rd_old,
 input reg_write_old,
 input clk,
 input stall,
+input [31:0] write_data,
 
 output [31:0] instr_out,
 output [31:0] snex,
@@ -18,10 +19,11 @@ assign ex = { {amt{1'b0}}, instruction[15:0]};
 
 assign instr_out = IF_ID;
 
-wire RegDst, ALUOp, ALUSrc, MemRead, MemWrite, RegWrite, MemtoReg;
-assign control_signals = stall ? 9'b0 : {RegDst, ALUOp, ALUSrc, MemRead, MemWrite, RegWrite, MemtoReg};
+wire RegDst, MemRead, MemWrite, RegWrite, MemtoReg;
+wire [1:0] ALUOp, ALUSrcB;
+assign control_signals = stall ? 9'b0 : {RegDst, ALUOp, ALUOp, ALUSrcB, MemRead, MemWrite, RegWrite, MemtoReg};
 
-control C (.opcode(IF_ID[31:26]), .RegDst(RegDst), .ALUOp(ALUOp), .ALUSrc(ALUSrc), .MemRead(MemRead), .MemWrite(MemWrite), .RegWrite(RegWrite), .MemtoReg(MemtoReg));
+control C (.opcode(IF_ID[31:26]), .RegDst(RegDst), .ALUOp(ALUOp), .ALUSrcB(ALUSrcB), .MemRead(MemRead), .MemWrite(MemWrite), .RegWrite(RegWrite), .MemtoReg(MemtoReg));
 register_file R (.clk(clk), .rs(IF_ID[25:21]), .rt(IF_ID[20:16]), .rd(rd_old), .reg_write(reg_write_old), .A(A), .B(B), .write_data(write_data));
 
 endmodule
