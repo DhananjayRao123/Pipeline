@@ -1,6 +1,8 @@
-module pipeline (clk, rst_n);
+module pipeline (clk, rst_n); 
 
 input clk, rst_n;
+input [31:0] instr;
+
 wire [31:0]instr_out,snex,ex,A,B;
 wire [8:0]control_signals_1;
 
@@ -47,7 +49,7 @@ EX stage3 (
     .ALU_Out(ALU_Out)
  );
 
-MEM Stage4(.data_address(EX_MEM[35:4]), .data(EX_MEM[72:41]), .MemRead(EX_MEM[3]), MemWrite(EX_MEM[2]), .MemOut(MemOut));
+MEM Stage4(.data_address(EX_MEM[35:4]), .data(EX_MEM[72:41]), .MemRead(EX_MEM[3]), .MemWrite(EX_MEM[2]), .MemOut(MemOut));
 
 assign Fwd_mem = MEM_WB[0] ? MEM_WB[65:34] : MEM_WB[33:2];
 
@@ -66,10 +68,10 @@ always @(posedge clk, negedge rst_n)begin
         MEM_WB <= 71'b0;
     end
     else begin
-        IF_ID <= instr_out;
-    ID_EX <= {IF_ID,snex, ex, A, B, control_signals_1};
-    EX_MEM <= {ID_EX[72:41], ID_EX[136:132], ALU_Out, ID_EX[3:0]};
-    MEM_WB <= {EX_MEM[40:36], EX_MEM[65:34], MemOut, EX_MEM[1:0]};
+        IF_ID <= instr;
+        ID_EX <=  {instr_out,snex, ex, A, B, control_signals_1};
+        EX_MEM <= {ID_EX[72:41], ID_EX[136:132], ALU_Out, ID_EX[3:0]};
+        MEM_WB <= {EX_MEM[40:36], EX_MEM[65:34], MemOut, EX_MEM[1:0]};
     end
 end
 
