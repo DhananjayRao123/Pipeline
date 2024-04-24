@@ -14,7 +14,7 @@ wire [31:0]MemData;
 wire [31:0]MemOut;
 
 wire stall, PC_write;
-Hazard_detection H1 (.rs_IF_ID(IF_ID[25:21]), .rt_IF_ID(IF_ID[20:16]), .rt_ID_EX(ID_EX[157:153]), .MemRead_ID_EX(ID_EX[4]), .stall(stall), .PC_write(PC_write));
+Hazard_detection H1 (.rs_IF_ID(IF_ID[25:21]), .rt_IF_ID(IF_ID[20:16]), .rt_ID_EX(ID_EX[157:153]), .MemRead_ID_EX(ID_EX[3]), .stall(stall), .PC_write(PC_write));
 forwarding_unit f (.rd_EX_MEM(EX_MEM[40:36]), .rd_MEM_WB(MEM_WB[70:66]), .rs_ID_EX(ID_EX[162:158]), .rt_ID_EX(ID_EX[157:153]), .RegWrite_EX_MEM(EX_MEM[1]), .RegWrite_MEM_WB(MEM_WB[1]), .ALU_SrcA_fwd(ALU_SrcA_fwd), .ALU_SrcB_fwd(ALU_SrcB_fwd));
 
 IF stage1 (clk, rst_n, instr, PC_write);
@@ -36,8 +36,8 @@ ID stage2 (
 );
 
 EX stage3 (
-    .A(ID_EX[40:9]),
-    .B(ID_EX[72:41]),
+    .A(ID_EX[72:41]),
+    .B(ID_EX[40:9]),
     .F(ID_EX[142:137]),
     .snex(ID_EX[136:105]),
     .ex(ID_EX[136:105]),
@@ -53,6 +53,8 @@ EX stage3 (
 MEM Stage4(.data_address(EX_MEM[35:4]), .data(EX_MEM[72:41]), .MemRead(EX_MEM[3]), .MemWrite(EX_MEM[2]), .MemOut(MemOut));
 
 assign Fwd_mem = MEM_WB[0] ? MEM_WB[65:34] : MEM_WB[33:2];
+wire [4:0] destination;
+assign destination = ID_EX[8] ? ID_EX[152:148] : ID_EX[157:153];
 
 // Pipelined registers
 reg [31:0] IF_ID;
@@ -70,8 +72,8 @@ always @(posedge clk, negedge rst_n)begin
     end
     else begin
         IF_ID <= instr;
-        ID_EX <=  {instr_out,snex, ex, A, B, control_signals_1};
-        EX_MEM <= {ID_EX[72:41], ID_EX[136:132], ALU_Out, ID_EX[3:0]};
+        ID_EX <= {instr_out,snex, ex, A, B, control_signals_1};
+        EX_MEM <= {ID_EX[40:9], destination, ALU_Out, ID_EX[3:0]};
         MEM_WB <= {EX_MEM[40:36], EX_MEM[65:34], MemOut, EX_MEM[1:0]};
     end
 end

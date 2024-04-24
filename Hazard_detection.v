@@ -6,7 +6,7 @@ input MemRead_ID_EX;
 output stall;
 output PC_write;
 
-assign stall = ((rs_IF_ID == rt_ID_EX || rt_IF_ID == rt_ID_EX) && MemRead_ID_EX) ? 1 : 0;
+assign stall = ((rs_IF_ID == rt_ID_EX | rt_IF_ID == rt_ID_EX) && MemRead_ID_EX) ? 1 : 0;
 assign PC_write = stall ? 0 : 1;
 
 endmodule

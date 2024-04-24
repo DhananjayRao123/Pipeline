@@ -14,8 +14,8 @@ ID/EX
 [168:137]instruction
 [136:105]snex
 [104:73]ex
-[72:41]B
-[40:9]A
+[72:41]A
+[40:9]B
 [8:0]Controlsignals;
 
 
