@@ -1,4 +1,4 @@
-module register_file(clk, rs, rt, rd, A, B, write_data);
+module register_file(clk, rs, rt, rd, A, B, write_data, reg_write);
 input [4:0] rs, rt, rd;
 input reg_write;
 input [31:0] write_data;

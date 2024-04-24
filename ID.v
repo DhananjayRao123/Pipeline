@@ -14,8 +14,8 @@ output [8:0] control_signals
 );
 
 parameter amt = 16;
-assign snex = { {amt{instruction[15]}}, instruction[15:0]};
-assign ex = { {amt{1'b0}}, instruction[15:0]};
+assign snex = {{16{IF_ID[15]}}, IF_ID[15:0]};
+assign ex = {{amt{1'b0}}, IF_ID[15:0]};
 
 assign instr_out = IF_ID;
 

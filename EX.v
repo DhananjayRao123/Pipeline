@@ -1,6 +1,7 @@
-module EX (A, B, snex, ex, Fwd_mem, Fwd_wb, ALU_SrcA_fwd, ALU_SrcB_ctrl, ALU_SrcB_fwd, ALUOp, ALU_Out);
+module EX (A, B, F, snex, ex, Fwd_mem, Fwd_wb, ALU_SrcA_fwd, ALU_SrcB_ctrl, ALU_SrcB_fwd, ALUOp, ALU_Out);
 
 input [31:0] A, B, snex, ex, Fwd_mem, Fwd_wb ;
+input [5:0] F;
 
 input [1:0] ALU_SrcA_fwd;
 input [1:0] ALU_SrcB_ctrl;

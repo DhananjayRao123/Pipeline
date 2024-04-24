@@ -1,7 +1,7 @@
 module pipeline (clk, rst_n); 
 
 input clk, rst_n;
-input [31:0] instr;
+wire [31:0] instr;
 
 wire [31:0]instr_out,snex,ex,A,B;
 wire [8:0]control_signals_1;
@@ -38,6 +38,7 @@ ID stage2 (
 EX stage3 (
     .A(ID_EX[40:9]),
     .B(ID_EX[72:41]),
+    .F(ID_EX[142:137]),
     .snex(ID_EX[136:105]),
     .ex(ID_EX[136:105]),
     .Fwd_mem(Fwd_mem),
@@ -45,7 +46,7 @@ EX stage3 (
     .ALU_SrcA_fwd(ALU_SrcA_fwd),
     .ALU_SrcB_ctrl(ID_EX[5:4]),
     .ALU_SrcB_fwd(ALU_SrcB_fwd),
-    .ALUOp(control_signals[7:6]),
+    .ALUOp(control_signals_1[7:6]),
     .ALU_Out(ALU_Out)
  );
 
