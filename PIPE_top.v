@@ -11,8 +11,12 @@ wire [31:0]ALU_Out;
 wire [31:0]MemData;
 wire [31:0]MemOut;
 
+wire stall, PC_write;
+Hazard_detection H1 (.rs_IF_ID(IF_ID[25:21]), .rt_IF_ID(IF_ID[20:16]), .rt_ID_EX(ID_EX[157:153]), .MemRead_ID_EX(ID_EX[4]), .stall(stall), .PC_write(PC_write));
+forwarding_unit f (.rd_EX_MEM(EX_MEM[40:36]), .rd_MEM_WB(MEM_WB[70:66]), .rs_ID_EX(ID_EX[162:158]), .rt_ID_EX(ID_EX[157:153]), .RegWrite_EX_MEM(EX_MEM[1]), .RegWrite_MEM_WB(MEM_WB[1]), .ALU_SrcA_fwd(ALU_SrcA_fwd), .ALU_SrcB_fwd(ALU_SrcB_fwd));
 
 IF stage1 (clk, rst_n, instr, PC_write);
+
 ID stage2 (
     .IF_ID(IF_ID),
     .rd_old(MEM_WB[70:66]),
@@ -28,6 +32,7 @@ ID stage2 (
     .B(B),
     .control_signals(control_signals_1)   
 );
+
 EX stage3 (
     .A(ID_EX[40:9]),
     .B(ID_EX[72:41]),
@@ -40,8 +45,7 @@ EX stage3 (
     .ALU_SrcB_fwd(ALU_SrcB_fwd),
     .ALUOp(control_signals[7:6]),
     .ALU_Out(ALU_Out)
-);
-
+ );
 
 MEM Stage4(.data_address(EX_MEM[35:4]), .data(EX_MEM[72:41]), .MemRead(EX_MEM[3]), MemWrite(EX_MEM[2]), .MemOut(MemOut));
 

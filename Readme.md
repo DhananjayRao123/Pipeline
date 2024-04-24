@@ -10,7 +10,7 @@
 [35:4]Aluout
 [3:0]controlsignals
 
-mem/wb
+ID/EX
 [168:137]instruction
 [136:105]snex
 [104:73]ex
