@@ -21,7 +21,7 @@ initial begin
     register[8] = 32'h000113E4;
     register[10] = 32'h0001230B;
     //make others 0
-    register[1] = 0;
+    register[1] = 1;
     register[11] = 0;
     register[14] = 0;
     register[0] = 0;

@@ -6,6 +6,13 @@ module MEM (data_address, data, MemRead, MemWrite, MemOut);
 
     reg [31:0] Mem[0:1023];
 
+    //put the data in the memory of 8th address
+    initial
+    begin
+        Mem[8] = 32'b1001;
+    end
+
+
     always @(*)
     begin
         if(MemRead)
