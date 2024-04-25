@@ -9,14 +9,17 @@ output reg [31:0] A, B;
 reg [31:0] register [0:15]; 
 
 initial begin
-    register[2] = 90;
-    register[1] = 10;
-    register[5] = 32'h000000A0;
-    register[4] = 32'h000000B1;
-    register[7] = 32'hBEFF556A;
-    register[8] = 32'hFFEE7129;
-    register[10] = 32'hFAFF7EF;
-    register[11] = 32'hEBAF735D;
+//     //reg2 = 6 reg4 = 0E311
+    // reg5 = 964EB reg7 = 964EA
+    // reg8 = 113D4 reg10 = 1230B
+    register[2] = 32'h6;
+    register[1] = 32'h0E311;
+    register[5] = 32'h964EB;
+    register[4] = 32'h964EA;
+    register[7] = 32'h113D4;
+    register[8] = 32'h1230B;
+    register[10] = 32'h1230B;
+    register[11] = 32'h1230B;
     //make others 0
     register[0] = 0;
     register[3] = 0;
