@@ -1,7 +1,9 @@
-module forwarding_unit(rd_EX_MEM, rd_MEM_WB, rs_ID_EX, rt_ID_EX, RegWrite_EX_MEM, RegWrite_MEM_WB, ALU_SrcA_fwd, ALU_SrcB_fwd);
+module forwarding_unit(rd_EX_MEM, rd_MEM_WB, rs_ID_EX, rt_ID_EX, RegWrite_EX_MEM, RegWrite_MEM_WB, ALU_SrcA_fwd, ALU_SrcB_fwd,store,for_B);
     input [4:0] rd_EX_MEM, rd_MEM_WB, rs_ID_EX, rt_ID_EX;
     input RegWrite_EX_MEM, RegWrite_MEM_WB;
     output [1:0] ALU_SrcA_fwd, ALU_SrcB_fwd;
+    input store;
+    output for_B;
 
     // wire [1:0] ALU_SrcA_fwd_temp2;
     // wire [1:0] ALU_SrcB_fwd_temp2;
@@ -25,7 +27,9 @@ module forwarding_unit(rd_EX_MEM, rd_MEM_WB, rs_ID_EX, rt_ID_EX, RegWrite_EX_MEM
     // assign ALU_SrcB_fwd_temp2 = hazard_2_rt ? 2'b01 : 2'b00;
 
     assign ALU_SrcA_fwd = (RegWrite_EX_MEM && (rd_EX_MEM == rs_ID_EX)) ? 2'b10 : (RegWrite_MEM_WB && (rd_MEM_WB == rs_ID_EX)) ? 2'b01 : 2'b00;
-    assign ALU_SrcB_fwd = (RegWrite_EX_MEM && (rd_EX_MEM == rt_ID_EX)) ? 2'b10 : (RegWrite_MEM_WB && (rd_MEM_WB == rt_ID_EX)) ? 2'b01 : 2'b00;
+    assign ALU_SrcB_fwd = (RegWrite_EX_MEM && (rd_EX_MEM == rt_ID_EX)) && !store ? 2'b10 : (RegWrite_MEM_WB && (rd_MEM_WB == rt_ID_EX)) ? 2'b01 : 2'b00;
+    assign for_B = (RegWrite_EX_MEM && (rd_EX_MEM == rt_ID_EX)) && store ? 1'b1 : 1'b0;
+
 
 endmodule
 

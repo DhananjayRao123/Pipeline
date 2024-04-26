@@ -12,7 +12,7 @@ initial begin
     $dumpvars;
     clk = 0;
     rst_n = 0;
-    #5 rst_n = 1;
+    #7 rst_n = 1;
     #100 $finish;
 end
 

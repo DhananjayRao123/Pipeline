@@ -35,16 +35,20 @@ initial begin
 end
 
 reg [31:0] PC; 
+reg [31:0] PC_inc;
+wire [31:0] PC_same;
+wire [31:0] PC_next;
+
+assign PC_next = PC_write ? PC_inc : PC;
 
 always @(posedge clk or negedge rst_n) begin
     if(~rst_n) begin 
         PC <= 32'd0;
+        PC_inc <= 32'd4;
         end
     else begin
-        if(PC_write)
-            PC <= PC+4;
-        else
-            PC <= PC;
+        PC <= PC_next;
+        PC_inc <= PC_next + 4;
     end
 end
 
