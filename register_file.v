@@ -14,16 +14,15 @@ initial begin
     // reg5 = 964EB reg7 = 964DA
     // reg8 = 113E4 reg10 = 1230B
 
-    register[2] = 32'h00000006;
-    register[4] = 32'h0000E311;
-    register[5] = 32'h000964EB;
-    register[7] = 32'h000964DA;
-    register[8] = 32'h000113E4;
-    register[10] = 32'h0001230B;
-    //make others 0
-    register[1] = 1;
+    register[2] = 32'h6;
+    register[1] = 0;
+    register[5] = 32'h964EB;
+    register[4] = 32'h0E311;
+    register[7] = 32'h964EA;
+    register[8] = 32'h113D4;
+    register[10] = 32'h1230B;
     register[11] = 0;
-    register[14] = 0;
+    //make others 0
     register[0] = 0;
     register[3] = 0;
     register[6] = 0;
