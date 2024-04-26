@@ -18,6 +18,7 @@ begin
 			case (F)
 				6'b000010: Operation = 4'b0010; // ADD
 				6'b000000: Operation = 4'b0000; // XOR
+				6'b000110: Operation = 4'b0110; // SUB
             endcase
 			end // R Type
 		2'b11: Operation = 4'b0001; // ORI
